@@ -57,6 +57,49 @@
 			</div>
 		</div>
 
+		<div class="row" v-if="is_connected">
+
+			<!-- Wifi Config -->
+			<div class="col-md-6 col-12 my-3">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<h5 class="text-success">
+							<b>WIFI Config</b>
+						</h5>
+						<hr>
+						<table class="table table-borderless">
+							<tr>
+								<td>Status</td>
+								<td>:</td>
+								<td><b class="text-success">{{ wifi_conf.status == 3 ? 'Connected':'' }}</b></td>
+							</tr>
+							<tr>
+								<td>SSID</td>
+								<td>:</td>
+								<td>{{ wifi_conf.ssid }}</td>
+							</tr>
+							<tr>
+								<td>Password</td>
+								<td>:</td>
+								<td>{{ wifi_conf.pass }}</td>
+							</tr>
+							<tr>
+								<td>IP Address</td>
+								<td>:</td>
+								<td>{{ wifi_conf.ip_address }}</td>
+							</tr>
+							<tr>
+								<td>Signal</td>
+								<td>:</td>
+								<td>{{ wifi_conf.signal }}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
 	</div>
 </template>
 
@@ -65,11 +108,21 @@
 
 	export default {
 		name: 'Main',
+		props: {
+			msg: String
+		},
 		data() {
 			return {
 				ip_address: '192.168.0.103',
 				is_connected: false,
 				is_loading: false,
+				wifi_conf: {
+					ssid: '',
+					ip_address: '',
+					status: '',
+					signal: '',
+					pass: '',
+				}
 			}
 		},
 		methods: {
@@ -107,3 +160,32 @@
 		}
 	}
 </script>
+
+<style scoped>
+	.table tr {
+		height: 2rem;
+		vertical-align: middle;
+	}
+
+	.table td {
+		padding: 0 1rem;
+	}
+
+	.table tr td:first-child {
+		white-space: nowrap;
+		padding: 0;
+	}
+
+	.table tr td:last-child {
+		width: 100%;
+		padding: 0;
+	}
+	vr {
+		height: 100%;
+		width: 2px;
+		border-right: 5px solid black;
+	}
+	input[type=number]{
+		width: 7rem;
+	}
+</style>
