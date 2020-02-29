@@ -97,9 +97,50 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- Robot Moves -->
+			<div class="col-md-6 col-12 my-3">
+				<div class="card border-left-primary shadow h-100 py-2">
+					<div class="card-body">
+						<h5 class="text-primary"><b>Robot Moves</b></h5>
+						<hr>
+						<div class="d-flex flex-row">
+							<b class="flex-fill">Basic</b>
+							<button class="btn btn-outline-primary mx-3" @click="send_moves(1)">Stand</button>
+							<button class="btn btn-outline-primary"	@click="send_moves(2)">Sit</button>
+						</div>
+						<hr>
+						<div class="d-flex flex-row">
+							<div class="d-flex flex-column">
+								<b>Move</b>
+								<input type="number" class="form-control" placeholder="Step" v-model="move_step">
+							</div>
+							<div class="d-flex flex-row flex-wrap justify-content-end">
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(3)">
+									Forward</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(4)">
+									Back</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(5)">Turn
+									Left</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(6)">Turn
+									Right</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(7)">Body
+									Left</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(8)">Body
+									Right</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(9)">Hand
+									Wave</button>
+								<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(10)">Hand
+									Shake</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
 
 		</div>
-		
+
 	</div>
 </template>
 
@@ -116,6 +157,7 @@
 				ip_address: '192.168.0.103',
 				is_connected: false,
 				is_loading: false,
+				move_step: 0,
 				wifi_conf: {
 					ssid: '',
 					ip_address: '',
@@ -157,6 +199,21 @@
 			disconnect() {
 				this.is_connected = false
 			},
+			send_moves(move_id){
+				this.is_loading = true
+				let vm = this
+
+				axios.get(this.url('/move'), { move_id: move_id, step: vm.move_step })
+					.then(function (response) {
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error.config);
+					})
+					.then(function () {
+						vm.is_loading = false
+					});
+			},
 		}
 	}
 </script>
@@ -186,6 +243,6 @@
 		border-right: 5px solid black;
 	}
 	input[type=number]{
-		width: 7rem;
+		max-width: 7rem;
 	}
 </style>
