@@ -312,6 +312,35 @@
 					</div>
 				</div>
 
+				<!-- Infrared -->
+				<div class="col-lg-3 col-6 my-3">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<h5 class="text-primary"><b>Infrared</b></h5>
+							<hr>
+							
+							<b>Distance Sensor</b>
+							<table class="table table-borderless">
+								<tr v-for="(row, index) in ir_distance_table" :key="index">
+									<td>{{ row.label }}</td>
+									<td>:</td>
+									<td>{{ row.value }} cm</td>
+								</tr>
+							</table>
+							<hr>
+
+							<b>Line Sensor</b>
+							<table class="table table-borderless">
+								<tr v-for="(row, index) in ir_line_table" :key="index">
+									<td>{{ row.label }}</td>
+									<td>:</td>
+									<td>{{ row.value }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</transition>
 	</div>
@@ -366,7 +395,16 @@
 					left: 			0,
 					right: 			0,
 				},
-				
+				infrared_distance: {
+					front: 	0, 
+					left: 	0,
+					right: 	0,
+				},
+				infrared_line: {
+					sensor1: 'Black', 
+					sensor2: 'White',
+					sensor3: 'Black',
+				}
 
 			}
 		},
@@ -389,7 +427,20 @@
 					{ label: 'Right', 		value: this.ultrasonic_distance.right },
 				]
 			}, 
-			
+			ir_distance_table(){
+				return [
+					{ label: 'Front', 	value: this.infrared_distance.front },
+					{ label: 'Left', 	value: this.infrared_distance.left },
+					{ label: 'Right', 	value: this.infrared_distance.right },
+				]
+			},
+			ir_line_table(){
+				return [
+					{ label: 'Sensor 1', value: this.infrared_line.sensor1 },
+					{ label: 'Sensor 3', value: this.infrared_line.sensor2 },
+					{ label: 'Sensor 3', value: this.infrared_line.sensor3 },
+				]
+			},
 		},
 		methods: {
 			url(param) {
@@ -503,6 +554,24 @@
 						vm.is_loading = false
 					})
 			},
+			get_infrared_sensor(){
+				this.is_loading = true
+				let vm = this
+
+				axios
+					.get(this.url('/infrared'))
+					.then(function (response) {
+						vm.infrared_distance = response.data.infrared_distance
+						vm.infrared_line = response.data.infrared_line
+						console.log(response)
+					})
+					.catch(function (error) {
+						console.log(error.config)
+					})
+					.then(function () {
+						vm.is_loading = false
+					})
+			}
 		}
 	}
 </script>
