@@ -291,6 +291,29 @@
 			</div>
 		</transition>
 
+
+		<transition name="swipe-down">
+			<div class="row align-items-start" v-if="is_connected">
+
+				<!-- Ultrasonic -->
+				<div class="col-lg-3 col-6 my-3">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<h5 class="text-primary"><b>Ultrasonic</b></h5>
+							<hr>
+							<table class="table table-borderless">
+								<tr v-for="(row, index) in ultrasonic_table" :key="index">
+									<td>{{ row.label }}</td>
+									<td>:</td>
+									<td>{{ row.value }} cm</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</transition>
 	</div>
 </template>
 
@@ -336,7 +359,13 @@
 					rear_left: 	 {x: 0, y: 0, z: 0},
 					rear_right:  {x: 0, y: 0, z: 0},
 				},
-				
+				ultrasonic_distance: {
+					front: 			0,
+					front_left: 	0,
+					front_right: 	0,
+					left: 			0,
+					right: 			0,
+				},
 				
 
 			}
@@ -351,7 +380,15 @@
 					{ label: 'Signal', 		value: this.wifi_config.signal },
 				]
 			},
-			
+			ultrasonic_table(){
+				return [
+					{ label: 'Front', 		value: this.ultrasonic_distance.front },
+					{ label: 'Front Left', 	value: this.ultrasonic_distance.front_left },
+					{ label: 'Front Right', value: this.ultrasonic_distance.front_right },
+					{ label: 'Left', 		value: this.ultrasonic_distance.left },
+					{ label: 'Right', 		value: this.ultrasonic_distance.right },
+				]
+			}, 
 			
 		},
 		methods: {
@@ -449,7 +486,23 @@
 						vm.is_loading = false
 					})
 			},
-			
+			get_ultrasonic_distance(){
+				this.is_loading = true
+				let vm = this
+
+				axios
+					.get(this.url('/ultrasonic'))
+					.then(function (response) {
+						vm.ultrasonic_distance = response.data.ultrasonic_distance
+						console.log(response)
+					})
+					.catch(function (error) {
+						console.log(error.config)
+					})
+					.then(function () {
+						vm.is_loading = false
+					})
+			},
 		}
 	}
 </script>
