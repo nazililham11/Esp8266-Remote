@@ -145,6 +145,64 @@
 			</div>
 		</transition>
 
+		<transition name="swipe-down">
+			<div class="row align-items-start" v-if="is_connected">
+
+				<!-- Robot Speed -->
+				<div class="col-md-6 col-12 my-3">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<h5 class="text-primary"><b>Robot Speeds</b></h5>
+							<hr>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex flex-column flex-fill">
+									<strong>Move speed multiple</strong>
+									<p class="m-0">Multiple all speeds(default 1).</p>
+								</div>
+								<input type="number" class="form-control" placeholder="Speed" v-model="speeds.move_speed_multiple">
+							</div>
+							<hr>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex flex-column flex-fill">
+									<strong>Spot turn speed</strong>
+									<p class="m-0">Speed to turn left or right.</p>
+								</div>
+								<input type="number" class="form-control" placeholder="Speed" v-model="speeds.spot_turn_speed">
+							</div>
+							<hr>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex flex-column flex-fill">
+									<strong>Leg move speed</strong>
+									<p class="m-0">Speed to leg move.</p>
+								</div>
+								<input type="number" class="form-control" placeholder="Speed" v-model="speeds.leg_move_speed">
+							</div>
+							<hr>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex flex-column flex-fill">
+									<strong>Body move speed</strong>
+									<p class="m-0">Speed to move body.</p>
+								</div>
+								<input type="number" class="form-control" placeholder="Speed" v-model="speeds.body_move_speed">
+							</div>
+							<hr>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex flex-column flex-fill">
+									<strong>Stand seat speed</strong>
+									<p class="m-0">Speed to stand and seat.</p>
+								</div>
+								<input type="number" class="form-control" placeholder="Speed" v-model="speeds.stand_seat_speed">
+							</div>
+							
+							<button type="submit" class="btn btn-primary px-3" @click="send_speeds()">Save</button>
+
+						</div>
+					</div>
+				</div>
+
+				
+			</div>
+		</transition>
 
 	</div>
 </template>
@@ -169,6 +227,13 @@
 					status: '',
 					signal: '',
 					pass: '',
+				},
+				speeds: {
+					move_speed_multiple: 0, 
+					spot_turn_speed: 0, 
+					leg_move_speed: 0, 
+					body_move_speed: 0, 
+					stand_seat_speed: 0, 
 				},
 				update_speed: 0,
 				update_speeds: [
@@ -228,7 +293,22 @@
 						vm.is_loading = false
 					});
 			},
-			
+			send_speeds(){
+				this.is_loading = true
+				let vm = this
+
+				axios
+					.get(this.url('/speeds'), { params: this.speeds })
+					.then(function (response) {
+						console.log(response);
+					})
+					.catch(function (error) {
+						console.log(error.config);
+					})
+					.then(function () {
+						vm.is_loading = false
+					});
+			},
 		}
 	}
 </script>
