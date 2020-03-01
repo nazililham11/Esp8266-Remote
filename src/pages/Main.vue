@@ -57,15 +57,25 @@
 			</div>
 		</div>
 
+		<!-- WIFI Conifguration -->
+		<transition name="swipe-down">
+			<div class="row mt-5" v-if="is_connected">
+				<div class="col-12">
+					<h4 class="text-success m-0"><b>WIFI</b></h4>
+					<hr>
+				</div>
+			</div>
+		</transition>
+
 		<transition name="swipe-down">
 			<div class="row" v-if="is_connected">
 
-				<!-- Wifi Config -->
-				<div class="col-md-6 col-12 my-3">
+				<!-- Wifi Status -->
+				<div class="col-md-12 col-12 my-3">
 					<div class="card border-left-success shadow h-100 py-2">
 						<div class="card-body">
 							<h5 class="text-success">
-								<b>WIFI Config</b>
+								<b>WIFI Status</b>
 							</h5>
 							<hr>
 							<table class="table table-borderless">
@@ -84,39 +94,61 @@
 					</div>
 				</div>
 				
+			</div>
+		</transition>
+
+
+		<!-- Actions -->
+		<transition name="swipe-down">
+			<div class="row mt-5" v-if="is_connected">
+				<div class="col-12">
+					<h4 class="text-info m-0"><b>Actions</b></h4>
+					<hr>
+				</div>
+			</div>
+		</transition>
+
+		<transition name="swipe-down">
+			<div class="row" v-if="is_connected">
+
 				<!-- Robot Moves -->
-				<div class="col-md-6 col-12 my-3">
-					<div class="card border-left-primary shadow h-100 py-2">
+				<div class="col-md-12 col-12 my-3">
+					<div class="card border-left-info shadow h-100 py-2">
 						<div class="card-body">
-							<h5 class="text-primary"><b>Robot Moves</b></h5>
+							<h5 class="text-info"><b>Robot Moves</b></h5>
 							<hr>
 							<div class="d-flex flex-row">
 								<b class="flex-fill">Basic</b>
-								<button class="btn btn-outline-primary mx-3" @click="send_moves(1)">Stand</button>
-								<button class="btn btn-outline-primary"	@click="send_moves(2)">Sit</button>
+								<button class="btn btn-outline-info mx-3" @click="send_moves(1)">Stand</button>
+								<button class="btn btn-outline-info"	@click="send_moves(2)">Sit</button>
 							</div>
 							<hr>
-							<div class="d-flex flex-row">
-								<div class="d-flex flex-column">
+							<div class="d-flex justify-content-between ">
+								<div class="d-flex align-items-center">
 									<b>Move</b>
-									<input type="number" class="form-control" placeholder="Step" v-model="move_step">
+									<div class="input-group ml-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text">Step</span>
+										</div>
+										<input type="number" class="form-control" placeholder="Step" v-model="move_step">
+									</div>
 								</div>
-								<div class="d-flex flex-row flex-wrap justify-content-end">
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(3)">
+								<div class="d-flex">
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(3)">
 										Forward</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(4)">
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(4)">
 										Back</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(5)">Turn
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(5)">Turn
 										Left</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(6)">Turn
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(6)">Turn
 										Right</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(7)">Body
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(7)">Body
 										Left</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(8)">Body
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(8)">Body
 										Right</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(9)">Hand
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(9)">Hand
 										Wave</button>
-									<button class="btn btn-outline-primary mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(10)">Hand
+									<button class="btn btn-outline-info mx-1 mb-2" :disabled="move_step < 1" @click="send_moves(10)">Hand
 										Shake</button>
 								</div>
 							</div>
@@ -127,7 +159,15 @@
 
 			</div>
 		</transition>
-
+		<!-- Robot Conifguration -->
+		<transition name="swipe-down">
+			<div class="row mt-5" v-if="is_connected">
+				<div class="col-12">
+					<h4 class="text-primary m-0"><b>Robot Conifguration</b></h4>
+					<hr>
+				</div>
+			</div>
+		</transition>		
 
 		<transition name="swipe-down">	
 			<div class="row align-items-start" v-if="is_connected">
@@ -187,9 +227,9 @@
 
 				<!-- Legs Coordinate -->
 				<div class="col-md-6 col-12 my-3">
-					<div class="card border-left-info shadow h-100 py-2">
+					<div class="card border-left-primary shadow h-100 py-2">
 						<div class="card-body">
-							<h5 class="text-info"><b>Leg Coordinate</b></h5>
+							<h5 class="text-primary"><b>Leg Coordinate</b></h5>
 							<hr>
 
 							<div class="row justify-content-around">
@@ -291,15 +331,24 @@
 			</div>
 		</transition>
 
+		<!-- Sensors -->
+		<transition name="swipe-down">
+			<div class="row mt-5" v-if="is_connected">
+				<div class="col-12">
+					<h4 class="text-warning m-0"><b>Sensors</b></h4>
+					<hr>
+				</div>
+			</div>
+		</transition>
 
 		<transition name="swipe-down">
 			<div class="row align-items-start" v-if="is_connected">
 
 				<!-- Ultrasonic -->
 				<div class="col-lg-3 col-6 my-3">
-					<div class="card border-left-primary shadow h-100 py-2">
+					<div class="card border-left-warning shadow h-100 py-2">
 						<div class="card-body">
-							<h5 class="text-primary"><b>Ultrasonic</b></h5>
+							<h5 class="text-warning"><b>Ultrasonic</b></h5>
 							<hr>
 							<table class="table table-borderless">
 								<tr v-for="(row, index) in ultrasonic_table" :key="index">
@@ -313,13 +362,11 @@
 				</div>
 
 				<!-- Infrared -->
-				<div class="col-lg-3 col-6 my-3">
-					<div class="card border-left-primary shadow h-100 py-2">
+				<div class="col-lg-3 col-6 my-3">	
+					<div class="card border-left-warning shadow h-100 py-2">
 						<div class="card-body">
-							<h5 class="text-primary"><b>Infrared</b></h5>
+							<h5 class="text-warning"><b>Infrared Distance</b></h5>
 							<hr>
-							
-							<b>Distance Sensor</b>
 							<table class="table table-borderless">
 								<tr v-for="(row, index) in ir_distance_table" :key="index">
 									<td>{{ row.label }}</td>
@@ -327,9 +374,16 @@
 									<td>{{ row.value }} cm</td>
 								</tr>
 							</table>
-							<hr>
+						</div>
+					</div>
+				</div>
 
-							<b>Line Sensor</b>
+				<!-- Infrared Line -->
+				<div class="col-lg-3 col-6 my-3">
+					<div class="card border-left-warning shadow h-100 py-2">
+						<div class="card-body">
+							<h5 class="text-warning"><b>Line Sensor</b></h5>
+							<hr>
 							<table class="table table-borderless">
 								<tr v-for="(row, index) in ir_line_table" :key="index">
 									<td>{{ row.label }}</td>
@@ -337,6 +391,27 @@
 									<td>{{ row.value }}</td>
 								</tr>
 							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Fire Sensor -->
+				<div class="col-lg-3 col-6 my-3">
+					<div class="card border-left-warning shadow h-100 py-2">
+						<div class="card-body">
+							<h5 class="text-warning"><b>Fire Sensor</b></h5>
+							<hr>
+							
+							<table id="thermal_image">
+								<tr v-for="(row, row_index) in thermal_image" :key="row_index">
+									<td 
+										v-for="(column, column_index) in row" 
+										:key="column_index"
+										:style="'background: rgb('+column+',0,0);'">
+									</td>
+								</tr>
+							</table>
+
 						</div>
 					</div>
 				</div>
@@ -404,7 +479,17 @@
 					sensor1: 'Black', 
 					sensor2: 'White',
 					sensor3: 'Black',
-				}
+				},
+				thermal_image: [
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 255, 255, 0, 0, 0],
+					[0, 0, 0, 0, 128, 0, 0, 0],
+					[0, 0, 0, 0, 0, 50, 0, 0],
+					[0, 0, 0, 0, 0, 0, 0, 0],
+					[0, 0, 0, 0, 0, 10, 25, 0],
+				]
 
 			}
 		},
@@ -577,28 +662,25 @@
 </script>
 
 <style scoped>
+	/* Termal Image */
+	#thermal_image tr, #thermal_image td {
+		width: 2rem;
+		height: 2rem;
+	}
 	.table tr {
 		height: 2rem;
 		vertical-align: middle;
 	}
-
 	.table td {
 		padding: 0 1rem;
 	}
-
 	.table tr td:first-child {
 		white-space: nowrap;
 		padding: 0;
 	}
-
 	.table tr td:last-child {
 		width: 100%;
 		padding: 0;
-	}
-	vr {
-		height: 100%;
-		width: 2px;
-		border-right: 5px solid black;
 	}
 	input[type=number]{
 		max-width: 7rem;
